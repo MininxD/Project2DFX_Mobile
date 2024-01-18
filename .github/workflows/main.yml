@@ -13,6 +13,8 @@ jobs:
 
     - name: Checkout repository...
       uses: actions/checkout@v3
+      with:
+        submodules: recursive
 
     - name: Download AndroidModLoader`s mod template...
       uses: wei/wget@v1
@@ -24,27 +26,17 @@ jobs:
         unzip ./AML_src.zip
         mv ./AndroidModLoader-main/mod ./mod
 
-    - name: Get CLEOMod...
-      uses: wei/wget@v1
-      with:
-        args: -O ./cleo.h https://github.com/AndroidModLoader/GTA_CLEOMod/raw/RUSJJ_CLEO_MOD/cleo.h
-
-    - name: Get BASSMod...
-      uses: wei/wget@v1
-      with:
-        args: -O ./ibass.h https://raw.githubusercontent.com/AndroidModLoader/BASSMod/main/ibass.h
-
-    - name: Install Android NDK (r24)...
+    - name: Install Android NDK (r25c)...
       uses: nttld/setup-ndk@v1.2.0
       with:
-        ndk-version: r24
+        ndk-version: r25c
         local-cache: true
 
     - name: Build the code...
-      run: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
+      run: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk NDK_DEBUG=0 -j12
 
     - name: Upload the mod!
       uses: actions/upload-artifact@v3
       with:
-        name: 2DFX-mobile.zip
+        name: 2DFXmod.zip
         path: ./libs
