@@ -4,12 +4,12 @@
 #include <string>
 
 #ifdef AML32
-    aml->PlaceB(pGTASA + 0x5DD7F0 + 0x1, pGTASA + 0x5DD80E + 0x1);
-    HOOKBLX(FrontNormie, pGTASA + 0x5DD810 + 0x1);
-  #else
-    aml->PlaceB(pGTASA + 0x702C18, pGTASA + 0x702C34);
-    HOOKBL(FrontNormie, pGTASA + 0x702C38);
-  #endif
+    #include "GTASA_STRUCTS.h"
+    #define BYVER(__for32, __for64) (__for32)
+#else
+    #include "GTASA_STRUCTS_210.h"
+    #define BYVER(__for32, __for64) (__for64)
+#endif
 
 #include <searchlights.h>
 
